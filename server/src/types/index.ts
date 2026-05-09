@@ -1,7 +1,7 @@
 import { Request } from "express";
 
 export interface AuthRequest extends Request {
-    user?: { id: String, email: String };
+    user?: { id: string, email: string };
 }
 
 export interface ApiError {
