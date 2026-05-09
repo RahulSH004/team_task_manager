@@ -9,10 +9,11 @@ export const createTaskSchema = z.object({
     assigneeId: z.string('Invalid assignee ID').optional(),
 })
 
-export const updateTaskSchema = z.object({
+export const updateStatusSchema = z.object({
     status: z.nativeEnum(Priority, {
         message: 'Invalid status'
     }),
 })
 
 export type CreateTaskInput = z.infer<typeof createTaskSchema>
+export type UpdateStatusInput = z.infer<typeof updateStatusSchema>
