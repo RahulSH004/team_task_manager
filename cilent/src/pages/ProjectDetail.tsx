@@ -62,12 +62,14 @@ const TaskCard = ({
   task,
   isAdmin,
   isAssignee,
-  onStatusChange
+  onStatusChange,
+  onDelete
 }: {
   task: Task
   isAdmin: boolean
   isAssignee: boolean
   onStatusChange: (taskId: string, status: string) => void
+  onDelete: (taskId: string) => void
 }) => {
   const status = statusConfig[task.status]
   const priority = priorityConfig[task.priority]
@@ -107,27 +109,38 @@ const TaskCard = ({
       </div>
 
       {/* status selector */}
-      <div className="ml-4 flex-shrink-0">
+      <div className="ml-4 flex-shrink-0 flex items-center gap-2">
         {canUpdate ? (
-          <Select
+            <Select
             value={task.status}
             onValueChange={(val) => onStatusChange(task.id, val)}
-          >
+            >
             <SelectTrigger className={`h-7 text-xs border-0 font-light px-2.5 rounded-md w-32 ${status.badge}`}>
-              <SelectValue />
+                <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="TODO" className="text-xs">To Do</SelectItem>
-              <SelectItem value="IN_PROGRESS" className="text-xs">In Progress</SelectItem>
-              <SelectItem value="DONE" className="text-xs">Done</SelectItem>
+                <SelectItem value="TODO" className="text-xs">To Do</SelectItem>
+                <SelectItem value="IN_PROGRESS" className="text-xs">In Progress</SelectItem>
+                <SelectItem value="DONE" className="text-xs">Done</SelectItem>
             </SelectContent>
-          </Select>
+            </Select>
         ) : (
-          <Badge className={`text-xs font-light border-0 ${status.badge}`}>
+            <Badge className={`text-xs font-light border-0 ${status.badge}`}>
             {status.label}
-          </Badge>
+            </Badge>
         )}
-      </div>
+
+        {/* delete button — admin only */}
+        {isAdmin && (
+            <button
+            onClick={() => onDelete(task.id)}
+            className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 text-slate-300 hover:text-red-400 text-xs px-1"
+            title="Delete task"
+            >
+            ✕
+            </button>
+        )}
+        </div>
     </div>
   )
 }
@@ -159,7 +172,9 @@ const CreateTaskModal = ({
       const payload = {
         ...data,
         assigneeId: data.assigneeId || undefined,
-        dueDate: data.dueDate ? new Date(data.dueDate).toISOString() : undefined
+        dueDate: data.dueDate && data.dueDate !== ''
+          ? new Date(data.dueDate + 'T00:00:00.000Z').toISOString()
+          : undefined
       }
       const res = await api.post(`/projects/${projectId}/tasks`, payload)
       onCreated(res.data.data)
@@ -429,6 +444,24 @@ const ProjectDetail = () => {
       console.error(err)
     }
   }
+  const handleDeleteTask = async (taskId: string) => {
+    if (!confirm('Delete this task?')) return
+    try {
+      await api.delete(`/tasks/${taskId}`)
+      setTasks(prev => prev.filter(t => t.id !== taskId))
+    } catch (err: any) {
+      console.error(err)
+    }
+  }
+  const handleDeleteProject = async () => {
+    if (!confirm(`Delete "${project?.name}"? This cannot be undone.`)) return
+    try {
+      await api.delete(`/projects/${projectId}`)
+      navigate('/projects')
+    } catch (err: any) {
+      console.error(err)
+    }
+  }
 
   // figure out current user's role in this project
   const myMembership = project?.members.find(m => m.user.id === user?.id)
@@ -498,6 +531,13 @@ const ProjectDetail = () => {
                 members={project.members}
                 onCreated={(task) => setTasks(prev => [task, ...prev])}
               />
+              <Button
+                variant="ghost"
+                onClick={handleDeleteProject}
+                className="text-xs h-9 px-4 rounded-lg text-red-400 hover:text-red-600 hover:bg-red-50 font-medium"
+              >
+                Delete project
+              </Button>
             </div>
           )}
         </div>
@@ -559,6 +599,7 @@ const ProjectDetail = () => {
                       isAdmin={isAdmin}
                       isAssignee={task.assignee?.id === user?.id}
                       onStatusChange={handleStatusChange}
+                      onDelete={handleDeleteTask}
                     />
                   ))
                 )}

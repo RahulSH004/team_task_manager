@@ -5,7 +5,7 @@ export const createTaskSchema = z.object({
     title: z.string().min(3, "Task title must be at least 3 characters"),
     description: z.string().min(3, "Task description must be at least 3 characters"),
     priority: z.nativeEnum(Priority),
-    dueDate: z.date().optional(),
+    dueDate: z.string().optional(),
     assigneeId: z.string('Invalid assignee ID').optional(),
 })
 
