@@ -17,6 +17,9 @@ A full-stack project management application with role-based access control, lett
 Team Task Manager allows users to create projects, invite team members, and manage tasks with role-scoped permissions. Project creators become admins automatically and control member access and task assignments. Members can update their own task statuses as work progresses.
 
 ---
+## Demo video
+[![Watch the demo](https://img.youtube.com/vi/0Yq3tv5giII/hqdefault.jpg)](https://youtu.be/0Yq3tv5giII)
+
 
 ## Features
 
