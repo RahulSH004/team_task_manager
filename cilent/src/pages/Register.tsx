@@ -45,7 +45,7 @@ const Register = () => {
       <div className="hidden lg:flex w-1/2 bg-slate-950 flex-col justify-between p-12">
         <div>
           <span className="text-white text-sm font-medium tracking-widest uppercase">
-            Taskflow
+            Task
           </span>
         </div>
         <div className="space-y-4 slide-up">

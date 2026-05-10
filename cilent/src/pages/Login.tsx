@@ -44,7 +44,7 @@ const Login = () => {
       <div className="hidden lg:flex w-1/2 bg-slate-950 flex-col justify-between p-12">
         <div>
           <span className="text-white text-sm font-medium tracking-widest uppercase">
-            Taskflow
+            Task
           </span>
         </div>
         <div className="space-y-4 slide-up">
@@ -52,7 +52,7 @@ const Login = () => {
             Manage work,<br />not chaos.
           </h1>
           <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
-            Assign tasks, track progress, and ship faster with your team — all in one place.
+            Assign tasks, track progress, and ship faster with your team all in one place.
           </p>
         </div>
         <div className="flex gap-6">

@@ -36,7 +36,7 @@ const Navbar = () => {
             <div className="w-2.5 h-2.5 bg-white rounded-sm" />
           </div>
           <span className="text-sm font-medium text-slate-900 tracking-wide">
-            Taskflow
+            Task
           </span>
         </Link>
 
