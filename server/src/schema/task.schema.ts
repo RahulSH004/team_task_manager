@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { Priority, TaskStatus } from '../../generated/prisma/enums'
+import { Priority, TaskStatus } from '../generated/prisma/enums'
 
 export const createTaskSchema = z.object({
     title: z.string().min(3, "Task title must be at least 3 characters"),

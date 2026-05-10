@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express"
 import { AuthRequest } from "../types"
 import { errorResponse } from "../lib/response"
 import { prisma } from '../lib/prisma'
-import { Role } from '../../generated/prisma/enums'
+import { Role } from '../generated/prisma/enums'
 
 export const requireAdmin = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
     try {

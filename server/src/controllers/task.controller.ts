@@ -3,7 +3,7 @@ import { AuthRequest } from "../types"
 import { CreateTaskInput, UpdateStatusInput } from "../schema/task.schema"
 import { prisma } from "../lib/prisma"
 import { errorResponse, successResponse } from "../lib/response"
-import { Role } from "../../generated/prisma/enums"
+import { Role } from "../generated/prisma/enums"
 
 
 
